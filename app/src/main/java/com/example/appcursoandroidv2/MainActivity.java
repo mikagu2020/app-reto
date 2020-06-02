@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.appcursoandroidv2.ui.inicio.InicioActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     Intent intent;
@@ -16,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
         getControlViews();
 
         setEventListeners();
+
+        //TODO redirecciona a InicioActity, borrar cuando esté implementado el login
+        Intent intent = new Intent(this, InicioActivity.class);
+        startActivity(intent);
 
     }
 
