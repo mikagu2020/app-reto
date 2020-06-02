@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.inicio.InicioActivity">
+
+    <fragment
+        android:id="@+id/navegacion_superior"
+        android:name="com.example.appcursoandroidv2.ui.fragments.ToolbarFragment"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_toolbar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="279dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="380dp"
+        android:text="Inicio Activity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navegacion_superior" />
+
+    <fragment android:name="com.example.appcursoandroidv2.ui.fragments.BottomNavigationFragment"
+        android:id="@+id/navegacion_navegacion_inferior"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_bottom_navigation" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
