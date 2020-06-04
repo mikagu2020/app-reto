@@ -3,7 +3,6 @@ package com.example.appcursoandroidv2.ui.activtar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,11 +24,9 @@ import com.example.appcursoandroidv2.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +34,7 @@ import java.util.Map;
 
 public class ActivTarActivity extends AppCompatActivity {
 
+    //Para obtener las coordenadas de longitud y latitud:
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     TextView tvLastActiveEur, tvLastActiveInt, tvCardEurope, tvCardInternational, tvCurrentCard;
@@ -54,9 +51,9 @@ public class ActivTarActivity extends AppCompatActivity {
     final static String UE = "DE AT BE BG CY HR DK SK SI ES EE FI FR EL HU IE IT LV LT LU MT NL PL PT UK CZ RO SE";
 
     double longitude, latitude;
-    private boolean permisosFineLocation = false;
+    private boolean permisosLocation = false;
     private static final int PERMISOS_LOCATION = 1;
-    private static String codPais;
+    private static String codPais = "NOCODE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +85,10 @@ public class ActivTarActivity extends AppCompatActivity {
         btnActEu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(UE.contains(codPais)) {
+                if(!permisosLocation) {
+                    Toast.makeText(ActivTarActivity.this, "Sin permisos de localización no se puede activar las tarjetas", Toast.LENGTH_SHORT).show();
+                }
+                else if(UE.contains(codPais) && !codPais.equalsIgnoreCase("NOCODE")) {
                     sendHttpRequest("http://10.0.2.2:4000/enablecard/user1/EUROPE");
                 } else {
                     Toast.makeText(ActivTarActivity.this, "La tarjeta no se puede activar porque NO ESTÁS DENTRO DE LA UE", Toast.LENGTH_SHORT).show();
@@ -98,7 +98,10 @@ public class ActivTarActivity extends AppCompatActivity {
         btnActInt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!UE.contains(codPais)) {
+                if(!permisosLocation) {
+                    Toast.makeText(ActivTarActivity.this, "Sin permisos de localización no se puede activar las tarjetas", Toast.LENGTH_SHORT).show();
+                }
+                else if(!UE.contains(codPais) && !codPais.equalsIgnoreCase("NOCODE")) {
                     sendHttpRequest("http://10.0.2.2:4000/enablecard/user1/INTERNATIONAL");
                 } else {
                     Toast.makeText(ActivTarActivity.this, "La tarjeta no se puede activar porque NO ESTÁS FUERA DE LA UE", Toast.LENGTH_SHORT).show();
@@ -165,8 +168,9 @@ public class ActivTarActivity extends AppCompatActivity {
     private void obtenerCoordenadas() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //Comprueba si tenemos permisos (checkSelfPermission), si no los tiene los pide (requestPermissions)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISOS_LOCATION);
 
         }
@@ -196,9 +200,10 @@ public class ActivTarActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISOS_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permisosLocation = true;
                     obtenerCoordenadas();
                 } else {
-
+                    Toast.makeText(this, "Sin los permisos de localización no podrás activar las tarjetas", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -206,6 +211,5 @@ public class ActivTarActivity extends AppCompatActivity {
             // case OTRO_CODIGO_DE_PERMISOS...
         }
     }
-
 
 }
