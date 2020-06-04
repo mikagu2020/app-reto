@@ -22,5 +22,9 @@
     <string name="nueva_dieta">Nueva dieta</string>
     <string name="listado_gastos">Lista gastos</string>
     <string name="inicio">inicio</string>
+    <string name="activar_europea">activar europea</string>
+    <string name="activar_internacional">activar internacional</string>
+    <string name="info_tarjetas">información tarjetas</string>
+    <string name="activar_tarjeta">activar tarjeta</string>
 
 </resources>

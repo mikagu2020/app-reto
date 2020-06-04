@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appcursoandroidv2.MainActivity;
 import com.example.appcursoandroidv2.R;
+import com.example.appcursoandroidv2.ui.activtar.ActivTarActivity;
 import com.example.appcursoandroidv2.ui.adiciongasto.AdicionGastoActivity;
 import com.example.appcursoandroidv2.ui.inicio.InicioActivity;
 import com.example.appcursoandroidv2.ui.listagastos.ListaGastosActivity;
@@ -58,6 +59,9 @@ public class ToolbarFragment extends Fragment {
                         intent = new Intent(context, ListaGastosActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.activ_tarjetas:
+                        intent = new Intent(context, ActivTarActivity.class);
+                        startActivity(intent);
                 }
                 return false;
             }
